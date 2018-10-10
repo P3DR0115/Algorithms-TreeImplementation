@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// This Should be working XD
+/// </summary>
 namespace Algorithms_TreeImplementation
 {
     class Program
     {
+                                                                            // |||
+                                                                            // VVV Change the file name here.
         static string FileLocation = AppDomain.CurrentDomain.BaseDirectory + "people.txt";
         static string[] FileDataStrings;
         public string[] SaveDataStrings;
