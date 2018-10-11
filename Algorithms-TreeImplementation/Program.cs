@@ -15,17 +15,17 @@ namespace Algorithms_TreeImplementation
                                                                             // VVV Change the file name here.
         static string FileLocation = AppDomain.CurrentDomain.BaseDirectory + "people.txt";
         static string[] FileDataStrings;
-        public string[] SaveDataStrings;
         public bool isReady = false;
 
         static void Main()
         {
-        List<Node> Root = new List<Node>();
+            List<Node> Root = new List<Node>();
 
             LoadText();
             DetermineDepth(Root);
             DetermineFamily(Root);
             DisplayElements(Root, 0);
+            PreSave(Root);
             Console.ReadLine();
 
         } // main()
@@ -119,7 +119,7 @@ namespace Algorithms_TreeImplementation
             return Root;
         } // DetermineFamily();
 
-        static void DisplayElements(List<Node> Root, int depth)
+        static void DisplayElements(List<Node> Root, int depth) // DisplayElements();
         {
             foreach (Node n in Root)
             {
@@ -160,7 +160,46 @@ namespace Algorithms_TreeImplementation
 
         } // DisplayElements();
 
-        //static string[] 
+        static void PreSave(List<Node> Root)
+        {
+            foreach (Node n in Root)
+            {
+                if (n.Parent != null)
+                {
+                    // Yes parent
+                    //Console.WriteLine("Depth: " + n.Depth + "    Name: " + n.Name + "    Parent: " + n.Parent.Name);
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write("Depth: " + n.Depth);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("    Name: " + n.Name);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("    Parent: " + n.Parent.Name + "\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                else
+                {
+                    // No parent
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write("Depth: " + n.Depth);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("    Name: " + n.Name);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("    Parent: None\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                try
+                {
+                    // Try to display children
+                    //DisplayElements(n.children, (depth + 1));
+                }
+                catch (Exception e)
+                {
+                    // No Children, Continue
+                }
+            }
+            //return SaveDataStrings;
+        }
 
     }
 }
