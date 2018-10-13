@@ -23,12 +23,40 @@ namespace Algorithms_TreeImplementation
 
             LoadText();
             DetermineDepth(Root);
+
+            // Assigning here because then I already know how many elements there are total.
+            //string[] FileSaveStrings = new string[FileDataStrings.Length];
+            List<string> FileSaveStrings = new List<string>();
+
             DetermineFamily(Root);
-            DisplayElements(Root, 0);
-            PreSave(Root);
+            PreDisplayElements();
+            DisplayElements(Root, FileSaveStrings);
+            SaveFile(FileSaveStrings);
+            PreInnerElements();
+            InnerElements(Root, FileSaveStrings);
+            PreSearchElement(Root);
             Console.ReadLine();
 
         } // main()
+
+        static void PreDisplayElements()
+        {
+            Console.WriteLine("All Elements:\n");
+        }
+
+        static void PreInnerElements()
+        {
+            Console.WriteLine("Inner Elements:\n");
+        }
+
+        static void PreSearchElement(List<Node> Root)
+        {
+            Console.WriteLine("Search Element:\n");
+            Console.WriteLine("Please enter an element to search:");
+            string userSearch = Console.ReadLine();
+
+            SearchElement(Root, userSearch);
+        }
 
         static void LoadText()
         {
@@ -119,51 +147,11 @@ namespace Algorithms_TreeImplementation
             return Root;
         } // DetermineFamily();
 
-        static void DisplayElements(List<Node> Root, int depth) // DisplayElements();
+        static void DisplayElements(List<Node> Root, List<string> FileSaveStrings)
         {
             foreach (Node n in Root)
             {
-                if(n.Parent != null)
-                {
-                    // Yes parent
-                    //Console.WriteLine("Depth: " + n.Depth + "    Name: " + n.Name + "    Parent: " + n.Parent.Name);
-
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Write("Depth: " + n.Depth);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("    Name: " + n.Name);
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.Write("    Parent: " + n.Parent.Name + "\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                }
-                else
-                {
-                    // No parent
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Write("Depth: " + n.Depth);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("    Name: " + n.Name);
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.Write("    Parent: None\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                }
-                try
-                {
-                    // Try to display children
-                    DisplayElements(n.children, (depth + 1));
-                }
-                catch(Exception e)
-                {
-                    // No Children, Continue
-                }
-            }
-
-        } // DisplayElements();
-
-        static void PreSave(List<Node> Root)
-        {
-            foreach (Node n in Root)
-            {
+                string tSaveString = "";
                 if (n.Parent != null)
                 {
                     // Yes parent
@@ -186,19 +174,101 @@ namespace Algorithms_TreeImplementation
                     Console.Write("    Name: " + n.Name);
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write("    Parent: None\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Gray;                    
                 }
+
+                for (int d = 0; d < n.Depth; d++)
+                {
+                    tSaveString += "\t";
+                }
+                tSaveString += n.Name;
+                FileSaveStrings.Add(tSaveString);                
+
                 try
                 {
                     // Try to display children
-                    //DisplayElements(n.children, (depth + 1));
+                    DisplayElements(n.children, FileSaveStrings);
+                }
+                catch(Exception e)
+                {
+                    // No Children, Continue
+                }
+            }
+
+        } // DisplayElements();
+
+        static void InnerElements(List<Node> Root, List<string> FileSaveStrings)
+        {
+            foreach (Node n in Root)
+            {
+                if (n.Parent != null && n.children.Count > 0)
+                {
+                    // Yes parent and has children
+                    //Console.WriteLine("Depth: " + n.Depth + "    Name: " + n.Name + "    Parent: " + n.Parent.Name);
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write("Depth: " + n.Depth);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("    Name: " + n.Name);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("    Parent: " + n.Parent.Name + "\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                // else
+                // No parent, Can't display.
+
+                try
+                {
+                    // Try to display children
+                    InnerElements(n.children, FileSaveStrings);
                 }
                 catch (Exception e)
                 {
                     // No Children, Continue
                 }
             }
-            //return SaveDataStrings;
+        }
+
+        static void SearchElement(List<Node> Root, string userSearch)
+        {
+            try
+            {
+                foreach(Node n in Root)
+                {
+                    if(userSearch.ToUpper() == n.Name.ToUpper())
+                    {
+                        Console.Beep();
+                        Console.Beep();
+                        Console.Beep();
+                        Console.WriteLine("Item Found:");
+                        n.displayParent();                        
+                        break;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            // Try to display children
+                            SearchElement(n.children, userSearch);
+                        }
+                        catch (Exception e)
+                        {
+                            break;
+                            // No Children, Continue
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.Beep();
+                Console.WriteLine("Item Not Found.");
+            }
+        }
+
+        static void SaveFile(List<string> FileSaveStrings)
+        {
+            System.IO.File.WriteAllLines(FileLocation, FileSaveStrings.ToArray());            
         }
 
     }
