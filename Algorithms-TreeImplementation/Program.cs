@@ -20,6 +20,7 @@ namespace Algorithms_TreeImplementation
         static void Main()
         {
             List<Node> Root = new List<Node>();
+            bool found = false;
 
             LoadText();
             DetermineDepth(Root);
@@ -34,7 +35,8 @@ namespace Algorithms_TreeImplementation
             SaveFile(FileSaveStrings);
             PreInnerElements();
             InnerElements(Root, FileSaveStrings);
-            PreSearchElement(Root);
+            found = PreSearchElement(Root, found);
+            failSearch(found);
             Console.ReadLine();
 
         } // main()
@@ -49,13 +51,14 @@ namespace Algorithms_TreeImplementation
             Console.WriteLine("Inner Elements:\n");
         }
 
-        static void PreSearchElement(List<Node> Root)
+        static bool PreSearchElement(List<Node> Root, bool found)
         {
             Console.WriteLine("Search Element:\n");
             Console.WriteLine("Please enter an element to search:");
             string userSearch = Console.ReadLine();
 
-            SearchElement(Root, userSearch);
+            found = SearchElement(Root, userSearch, found);
+            return found;
         }
 
         static void LoadText()
@@ -229,39 +232,40 @@ namespace Algorithms_TreeImplementation
             }
         }
 
-        static void SearchElement(List<Node> Root, string userSearch)
+        static bool SearchElement(List<Node> Root, string userSearch, bool found)
         {
-            try
+            foreach (Node n in Root)
             {
-                foreach(Node n in Root)
+                if (userSearch.ToUpper() == n.Name.ToUpper())
                 {
-                    if(userSearch.ToUpper() == n.Name.ToUpper())
-                    {
-                        Console.Beep();
-                        Console.Beep();
-                        Console.Beep();
-                        Console.WriteLine("Item Found:");
-                        n.displayParent();                        
-                        break;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            // Try to display children
-                            SearchElement(n.children, userSearch);
-                        }
-                        catch (Exception e)
-                        {
-                            break;
-                            // No Children, Continue
-                        }
-                    }
+                    Console.Beep();
+                    Console.Beep();
+                    Console.Beep(1000, 400);
+                    Console.WriteLine("Item Found:");
+                    found = true;
+                    n.displayParent();
+                    break;
+                }
+                else if (n.children.Count > 0)
+                {
+                    found = SearchElement(n.children, userSearch, found);
+                }
+                else
+                {
+                    //found = false;
                 }
             }
-            catch(Exception e)
+
+            return found;
+        }
+
+        static void failSearch(bool found)
+        {
+            if (!found)
             {
                 Console.Beep();
+                Console.Beep();
+                Console.Beep(400, 400);
                 Console.WriteLine("Item Not Found.");
             }
         }

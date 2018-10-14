@@ -18,12 +18,12 @@ namespace Algorithms_TreeImplementation
         {
             if(Parent != null)
             {
-                Console.WriteLine("This Node's name is " + this.Name + " and its parent is " + this.Parent.Name);
+                Console.WriteLine("Node's name is " + this.Name + " and its parent is " + this.Parent.Name);
                 this.Parent.displayParent();
             }
             else
             {
-                Console.WriteLine("This Node's name is " + this.Name + " and it has no parent.");
+                Console.WriteLine("Node's name is " + this.Name + " and it has no parent.");
             }
         }
     }
