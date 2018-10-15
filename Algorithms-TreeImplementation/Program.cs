@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 /// <summary>
 /// This Should be working XD
+/// You must restart the program to search for a new element
 /// </summary>
 namespace Algorithms_TreeImplementation
 {
@@ -24,10 +25,9 @@ namespace Algorithms_TreeImplementation
 
             LoadText();
             DetermineDepth(Root);
-
-            // Assigning here because then I already know how many elements there are total.
-            //string[] FileSaveStrings = new string[FileDataStrings.Length];
+            
             List<string> FileSaveStrings = new List<string>();
+            List<Node> foundNodes = new List<Node>();
 
             DetermineFamily(Root);
             PreDisplayElements();
