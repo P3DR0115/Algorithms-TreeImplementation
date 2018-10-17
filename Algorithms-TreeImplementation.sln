@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms-TreeImplementation", "Algorithms-TreeImplementation\Algorithms-TreeImplementation.csproj", "{D52DD80D-B003-4D71-9B35-C47D0F1EF8C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms-TreePart2", "Algorithms-TreePart2\Algorithms-TreePart2.csproj", "{275ACE3F-5D5F-4FEF-B838-31478B761E8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D52DD80D-B003-4D71-9B35-C47D0F1EF8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D52DD80D-B003-4D71-9B35-C47D0F1EF8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D52DD80D-B003-4D71-9B35-C47D0F1EF8C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{275ACE3F-5D5F-4FEF-B838-31478B761E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{275ACE3F-5D5F-4FEF-B838-31478B761E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{275ACE3F-5D5F-4FEF-B838-31478B761E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{275ACE3F-5D5F-4FEF-B838-31478B761E8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,12 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D52DD80D-B003-4D71-9B35-C47D0F1EF8C3}</ProjectGuid>
+    <ProjectGuid>{275ACE3F-5D5F-4FEF-B838-31478B761E8F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Algorithms_TreeImplementation</RootNamespace>
-    <AssemblyName>Algorithms-TreeImplementation</AssemblyName>
+    <RootNamespace>Algorithms_TreePart2</RootNamespace>
+    <AssemblyName>Algorithms-TreePart2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="INode.cs" />
-    <Compile Include="NewNode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

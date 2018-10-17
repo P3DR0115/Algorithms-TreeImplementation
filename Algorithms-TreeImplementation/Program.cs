@@ -35,7 +35,7 @@ namespace Algorithms_TreeImplementation
             SaveFile(FileSaveStrings);
             PreInnerElements();
             InnerElements(Root, FileSaveStrings);
-            found = PreSearchElement(Root, found);
+            found = PreSearchElement(Root, foundNodes, found);
             failSearch(found);
             Console.ReadLine();
 
@@ -51,13 +51,13 @@ namespace Algorithms_TreeImplementation
             Console.WriteLine("Inner Elements:\n");
         }
 
-        static bool PreSearchElement(List<Node> Root, bool found)
+        static bool PreSearchElement(List<Node> Root, List<Node> foundNodes, bool found)
         {
             Console.WriteLine("Search Element:\n");
             Console.WriteLine("Please enter an element to search:");
             string userSearch = Console.ReadLine();
 
-            found = SearchElement(Root, userSearch, found);
+            found = SearchElement(Root, userSearch, foundNodes, found);
             return found;
         }
 
@@ -232,7 +232,7 @@ namespace Algorithms_TreeImplementation
             }
         }
 
-        static bool SearchElement(List<Node> Root, string userSearch, bool found)
+        static bool SearchElement(List<Node> Root, string userSearch, List<Node> foundNodes, bool found)
         {
             foreach (Node n in Root)
             {
@@ -248,7 +248,8 @@ namespace Algorithms_TreeImplementation
                 }
                 else if (n.children.Count > 0)
                 {
-                    found = SearchElement(n.children, userSearch, found);
+                    foundNodes.Add(n);
+                    found = SearchElement(n.children, userSearch, foundNodes, found);
                 }
                 else
                 {
