@@ -31,16 +31,38 @@ namespace Algorithms_TreePart2
             this.Parent = null;
             this.IsReady = false;
         }
-        public void displayParent()
+
+        public void displayAncestors()
         {
             if (Parent != null)
             {
                 Console.WriteLine("Node's name is " + this.Content + " and its parent is " + this.Parent.Content);
-                this.Parent.displayParent();
+                this.Parent.displayAncestors();
             }
             else
             {
                 Console.WriteLine("Node's name is " + this.Content + " and it has no parent.");
+            }
+        }
+
+        public void displayDescendants()
+        {
+            if(Children.Count > 0)
+            {
+                Console.Write("Node's name is " + this.Content + "and its chilren are ");
+
+                foreach(Node n in Children)
+                {
+                    Console.Write(n.Content + "   ");
+                    if(n.Children.Count > 0)
+                    {
+                        n.displayDescendants();
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Node has no descendants");
             }
         }
 

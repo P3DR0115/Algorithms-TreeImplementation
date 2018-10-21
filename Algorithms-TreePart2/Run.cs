@@ -21,11 +21,18 @@ namespace Algorithms_TreePart2
             DetermineDepth(baseTree);
             DetermineFamily(baseTree);
             List<string> FileSaveStrings = new List<string>();
+            PreDisplayElements();
             DisplayElements(baseTree.Root, FileSaveStrings);
+            PreInnerElements();
             InnerElements(baseTree.Root, FileSaveStrings);
             SaveFile(FileSaveStrings);
-            baseTree.menu();
+            Console.WriteLine("Press [Enter] key to continue to the Tree Menu...");
             Console.ReadLine();
+
+            baseTree.menu();
+
+            SaveFile(FileSaveStrings);
+            //Console.ReadLine();
         }
         
         static void LoadText()
@@ -44,6 +51,16 @@ namespace Algorithms_TreePart2
         {
             System.IO.File.WriteAllLines(FileLocation, FileSaveStrings.ToArray());
         }// SaveText()
+        
+        static void PreDisplayElements()
+        {
+            Console.WriteLine("All Elements:\n");
+        }
+
+        static void PreInnerElements()
+        {
+            Console.WriteLine("Inner Elements:\n");
+        }
 
         static Tree DetermineDepth(Tree baseTree)
         {

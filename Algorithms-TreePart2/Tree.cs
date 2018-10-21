@@ -12,30 +12,40 @@ namespace Algorithms_TreePart2
         
         public void menu()
         {
-            bool validChoice = false;
+            bool validChoice;
             string choice = "";
 
             do
             {
+                validChoice = false;
+                Console.Clear();
                 Console.WriteLine("Please select an option:");
                 Console.WriteLine("Press [1] to Get a node by ID");
                 Console.WriteLine("Press [2] to Add a node to the Tree");
                 Console.WriteLine("Press [3] to Move a node within the Tree");
                 Console.WriteLine("Press [4] to Delete a node within the Tree");
                 Console.WriteLine("Press [5] to Find a node by ID");
-                Console.WriteLine("Press [6] to Fine a node by Content");
+                Console.WriteLine("Press [6] to Find a node by Content");
+                Console.WriteLine("Press [7] to Save and Quit");
 
                 choice = Console.ReadLine();
 
                 try
                 {
-                    Convert.ToInt32(choice);
-                    validChoice = true;
+                    if(Convert.ToInt32(choice) >= 1 && Convert.ToInt32(choice) <= 7)
+                        validChoice = true;
+                    else
+                    {
+                        Console.WriteLine("ERROR 4QB17: Invalid input");
+                        Console.WriteLine("Please try again: Press a key to continue...");
+                        Console.ReadLine();
+                    }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("ERROR 4QB17: Invalid input");
-                    Console.WriteLine("Please try again");
+                    Console.WriteLine("Please try again: Press a key to continue...");
+                    Console.ReadLine();
                 }
             } while (!validChoice);
 
@@ -47,6 +57,7 @@ namespace Algorithms_TreePart2
                         string IdSearch = Console.ReadLine();
                         Console.WriteLine("Please enter [1] to retrieve the Node's branch \nOr enter [0] to not retrieve the Node's branch");
                         bool getBranch = Convert.ToBoolean(Console.ReadLine());
+                        Get(IdSearch, getBranch);
                         break;
                     }
             }
@@ -64,7 +75,7 @@ namespace Algorithms_TreePart2
                 try
                 {
                     // Show all the parents
-
+                    searchResult.displayAncestors();
                     //Console.WriteLine(searchResult.Content);
                 }
                 catch (Exception e)
