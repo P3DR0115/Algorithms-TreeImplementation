@@ -64,6 +64,7 @@ namespace Algorithms_TreePart2
 
         static Tree DetermineDepth(Tree baseTree)
         {
+            Random rnd = new Random();
             for (int i = 0; i < FileDataStrings.Length; i++)
             {
                 int tDepth = 0;
@@ -92,7 +93,8 @@ namespace Algorithms_TreePart2
                         spaceDepth -= tempD;
 
                         tNode.Depth = (tDepth + (spaceDepth / 8));
-                        baseTree.Root.Add(tNode);//, "None");
+                        tNode.Id = tNode.Content + i + rnd.Next(0, 100);
+                        baseTree.Root.Add(tNode);
                         break;
                     }
                 } // inner loop. For the characters of the string element

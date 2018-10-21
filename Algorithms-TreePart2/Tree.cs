@@ -60,6 +60,30 @@ namespace Algorithms_TreePart2
                         Get(IdSearch, getBranch);
                         break;
                     }
+                case 6:
+                    {
+                        Console.WriteLine("Please enter the name of the Node: ");
+                        string contentSearch = Console.ReadLine();
+                        Node searchResult = FindNodeContent(Root, contentSearch);
+
+                        if(searchResult != null)
+                        {
+                            Console.Beep();
+                            Console.Beep();
+                            Console.Beep(1000, 400);
+                            Console.WriteLine("Item Found: " + searchResult.Content + ", ID: " + searchResult.Id);
+                            Console.WriteLine("Press [Enter] to continue...");
+                        }
+                        else
+                        {
+                            Console.Beep();
+                            Console.Beep();
+                            Console.Beep(400, 400);
+                            Console.WriteLine("Item Not Found.");
+                        }
+                        Console.ReadLine();
+                        break;
+                    }
             }
         }
 
@@ -75,7 +99,7 @@ namespace Algorithms_TreePart2
                 try
                 {
                     // Show all the parents
-                    searchResult.displayAncestors();
+                    searchResult.displayDescendants();
                     //Console.WriteLine(searchResult.Content);
                 }
                 catch (Exception e)
@@ -163,9 +187,32 @@ namespace Algorithms_TreePart2
             return searchResult;
         }
 
-        public void FindNodeContent(string Content)
+        public Node FindNodeContent(List<Node> query, string Content)
         {
+            Node searchResult = null; // Defaults to null to display that it couldn't be found
+            foreach (Node n in query)
+            {
+                if (Content.ToUpper() == n.Content.ToUpper())
+                {
+                    searchResult = n;
+                }
+                else
+                {
+                    // Check n's children
+                    try
+                    {
+                        searchResult = FindNodeContent(n.Children, Content);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        // Node n has no children and doesn't exist in context
+                    }
 
+                }
+            }
+
+            return searchResult;
         }
     }
 }
