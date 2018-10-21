@@ -31,6 +31,18 @@ namespace Algorithms_TreePart2
             this.Parent = null;
             this.IsReady = false;
         }
-        
+        public void displayParent()
+        {
+            if (Parent != null)
+            {
+                Console.WriteLine("Node's name is " + this.Content + " and its parent is " + this.Parent.Content);
+                this.Parent.displayParent();
+            }
+            else
+            {
+                Console.WriteLine("Node's name is " + this.Content + " and it has no parent.");
+            }
+        }
+
     }
 }

@@ -22,6 +22,7 @@ namespace Algorithms_TreePart2
             DetermineFamily(baseTree);
             List<string> FileSaveStrings = new List<string>();
             DisplayElements(baseTree.Root, FileSaveStrings);
+            InnerElements(baseTree.Root, FileSaveStrings);
             SaveFile(FileSaveStrings);
             Console.ReadLine();
         }
@@ -122,7 +123,7 @@ namespace Algorithms_TreePart2
                 DetermineFamily(baseTree);
 
             return baseTree;
-        }
+        } // DetermineFamily();
         
         static void DisplayElements(List<Node> Root, List<string> FileSaveStrings)
         {
@@ -173,5 +174,38 @@ namespace Algorithms_TreePart2
             }
 
         } // DisplayElements();
+
+        static void InnerElements(List<Node> Root, List<string> FileSaveStrings)
+        {
+            foreach (Node n in Root)
+            {
+                if (n.Parent != null && n.Children.Count > 0)
+                {
+                    // Yes parent and has children
+                    //Console.WriteLine("Depth: " + n.Depth + "    Name: " + n.Name + "    Parent: " + n.Parent.Name);
+
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write("Depth: " + n.Depth);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("    Name: " + n.Content);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("    Parent: " + n.Parent.Content + "\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                // else
+                // No parent, Can't display.
+
+                try
+                {
+                    // Try to display children
+                    InnerElements(n.Children, FileSaveStrings);
+                }
+                catch (Exception e)
+                {
+                    // No Children, Continue
+                }
+            }
+        } // InnerElements();
+
     }
 }
