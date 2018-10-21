@@ -24,6 +24,7 @@ namespace Algorithms_TreePart2
             DisplayElements(baseTree.Root, FileSaveStrings);
             InnerElements(baseTree.Root, FileSaveStrings);
             SaveFile(FileSaveStrings);
+            baseTree.menu();
             Console.ReadLine();
         }
         

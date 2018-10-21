@@ -10,6 +10,48 @@ namespace Algorithms_TreePart2
     {
         public List<Node> Root = new List<Node>();
         
+        public void menu()
+        {
+            bool validChoice = false;
+            string choice = "";
+
+            do
+            {
+                Console.WriteLine("Please select an option:");
+                Console.WriteLine("Press [1] to Get a node by ID");
+                Console.WriteLine("Press [2] to Add a node to the Tree");
+                Console.WriteLine("Press [3] to Move a node within the Tree");
+                Console.WriteLine("Press [4] to Delete a node within the Tree");
+                Console.WriteLine("Press [5] to Find a node by ID");
+                Console.WriteLine("Press [6] to Fine a node by Content");
+
+                choice = Console.ReadLine();
+
+                try
+                {
+                    Convert.ToInt32(choice);
+                    validChoice = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ERROR 4QB17: Invalid input");
+                    Console.WriteLine("Please try again");
+                }
+            } while (!validChoice);
+
+            switch (Convert.ToInt32(choice))
+            {
+                case 1:
+                    {
+                        Console.WriteLine("Please enter the ID of the Node:");
+                        string IdSearch = Console.ReadLine();
+                        Console.WriteLine("Please enter [1] to retrieve the Node's branch \nOr enter [0] to not retrieve the Node's branch");
+                        bool getBranch = Convert.ToBoolean(Console.ReadLine());
+                        break;
+                    }
+            }
+        }
+
         public void Get(string Id, bool shouldGetBranch)
         {
             Node searchResult = FindNodeId(Root, Id);
