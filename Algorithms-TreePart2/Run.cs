@@ -14,6 +14,7 @@ namespace Algorithms_TreePart2
         public static string[] FileDataStrings;
         public bool isReady = false;
         Tree baseTree = new Tree();
+        string choice;
 
         public Run()
         {
@@ -29,7 +30,10 @@ namespace Algorithms_TreePart2
             Console.WriteLine("Press [Enter] key to continue to the Tree Menu...");
             Console.ReadLine();
 
-            baseTree.menu();
+            do
+            {
+                choice = baseTree.menu();
+            } while (choice != "7");
 
             SaveFile(FileSaveStrings);
             //Console.ReadLine();

@@ -10,7 +10,7 @@ namespace Algorithms_TreePart2
     {
         public List<Node> Root = new List<Node>();
         
-        public void menu()
+        public string menu()
         {
             bool validChoice;
             string choice = "";
@@ -56,8 +56,17 @@ namespace Algorithms_TreePart2
                         Console.WriteLine("Please enter the ID of the Node:");
                         string IdSearch = Console.ReadLine();
                         Console.WriteLine("Please enter [1] to retrieve the Node's branch \nOr enter [0] to not retrieve the Node's branch");
-                        bool getBranch = Convert.ToBoolean(Console.ReadLine());
-                        Get(IdSearch, getBranch);
+                        string getBranch = Console.ReadLine();
+                        if(getBranch == "1")
+                        {
+                            Get(IdSearch, true);
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+                            Get(IdSearch, false);
+                            Console.ReadLine();
+                        }
                         break;
                     }
                 case 6:
@@ -85,12 +94,23 @@ namespace Algorithms_TreePart2
                         break;
                     }
             }
+
+            return choice;
         }
 
         public void Get(string Id, bool shouldGetBranch)
         {
-            Node searchResult = FindNodeId(Root, Id);
-            if (!shouldGetBranch)
+            Node searchResult = null;
+            try
+            {
+                searchResult = FindNodeId(Root, Id);
+            }
+            catch(Exception e)
+            {
+                // search fail
+            }
+
+            if (searchResult != null && !shouldGetBranch)
             {
                 Console.WriteLine(searchResult.Content);
             }
@@ -148,21 +168,21 @@ namespace Algorithms_TreePart2
                 } // foreach
             } // if node exists
             
-        } // method
+        } // AddNode()
 
         public void MoveNode(string Id, string ParentId)
         {
 
-        }
+        } // MoveNode()
 
         public void DeleteNode(string Id)
         {
 
-        }
+        } // DeleteNode()
 
         public Node FindNodeId(List<Node> query, string Id)
         {
-            Node searchResult = new Node();
+            Node searchResult = null;
             foreach (Node n in query)
             {
                 if (Id == n.Id)
@@ -175,17 +195,19 @@ namespace Algorithms_TreePart2
                     try
                     {
                         searchResult = FindNodeId(n.Children, Id);
+                        break;
                     }
                     catch (Exception e)
                     {
                         // Node n has no children
                         searchResult = null;
+                        break;
                     }
                 }
             }
 
             return searchResult;
-        }
+        } // FindNodeId()
 
         public Node FindNodeContent(List<Node> query, string Content)
         {

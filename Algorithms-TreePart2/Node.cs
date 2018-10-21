@@ -49,7 +49,7 @@ namespace Algorithms_TreePart2
         {
             if(Children.Count > 0)
             {
-                Console.Write("Node's name is " + this.Content + "and its chilren are ");
+                Console.Write("\nNode's name is " + this.Content + " and its chilren are ");
 
                 foreach(Node n in Children)
                 {
@@ -62,7 +62,7 @@ namespace Algorithms_TreePart2
             }
             else
             {
-                Console.WriteLine("Node has no descendants");
+                Console.WriteLine("\nNode" + this.Content + " has no descendants");
             }
         }
 
