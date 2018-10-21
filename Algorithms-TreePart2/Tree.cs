@@ -8,7 +8,7 @@ namespace Algorithms_TreePart2
 {
     public class Tree
     {
-        List<Node> Root = new List<Node>();
+        public List<Node> Root = new List<Node>();
         
         public void Get(string Id, bool shouldGetBranch)
         {
@@ -35,31 +35,42 @@ namespace Algorithms_TreePart2
 
         public void AddNode(Node Child, string ParentId)
         {
-            Node searchResult = new Node();
 
-            searchResult = FindNodeId(Root, ParentId);
-            foreach (Node n in Root)
+            // Search to see if parent exists 
+            Node searchResult = FindNodeId(Root, ParentId);
+            if(searchResult != null)
             {
-                if(ParentId == "Command: None")
+                foreach (Node n in Root)
                 {
-                    this.Root.Add(Child);
-                }
-                else if (ParentId == n.Id)
-                {
-                    n.children.Add(Child);
-                }
-                else
-                {
-                    try
+                    if (ParentId == "None")
                     {
-
+                        // Child will have no parent
+                        this.Root.Add(Child);
                     }
-                    catch (Exception e)
+                    else if (ParentId == n.Id)
                     {
+                        n.Children.Add(Child);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            foreach(Node o in n.Children)
+                            {
+                                if (ParentId == n.Id)
+                                {
+                                    n.Children.Add(Child);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
 
-                    } // catch
-                } // else
-            } // foreach
+                        } // catch
+                    } // else
+                } // foreach
+            } // if node exists
+            
         } // method
 
         public void MoveNode(string Id, string ParentId)
@@ -72,14 +83,10 @@ namespace Algorithms_TreePart2
 
         }
 
-        public Node FindNodeId(List<Node> Root, string Id)
+        public Node FindNodeId(List<Node> query, string Id)
         {
-            Node searchResult = new Node
-            {
-                Id = "DELETETHIS" // In case the search fails, easily find node for extermination >:3
-            };
-
-            foreach (Node n in Root)
+            Node searchResult = new Node();
+            foreach (Node n in query)
             {
                 if (Id == n.Id)
                 {
@@ -90,11 +97,12 @@ namespace Algorithms_TreePart2
                     // Check n's children
                     try
                     {
-                        searchResult = FindNodeId(n.children, Id);
+                        searchResult = FindNodeId(n.Children, Id);
                     }
                     catch (Exception e)
                     {
                         // Node n has no children
+                        searchResult = null;
                     }
                 }
             }

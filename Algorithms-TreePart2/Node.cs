@@ -8,11 +8,29 @@ namespace Algorithms_TreePart2
 {
     public class Node : INode
     {
-        public string Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Content { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float Depth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<Node> children { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Node Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsReady { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string _Id;
+        string _Content;
+        float _Depth;
+        List<Node> _Children;
+        Node _Parent;
+        bool _IsReady;
+
+        public string Id { get => this._Id; set => this._Id = value; }
+        public string Content { get => this._Content; set => this._Content = value; }
+        public float Depth { get => this._Depth; set => this._Depth = value; }
+        public List<Node> Children { get => this._Children; set => this._Children = value; }
+        public Node Parent { get => this._Parent; set => this._Parent = value; }
+        public bool IsReady { get =>  this._IsReady; set => this._IsReady = value; }
+
+        public Node()
+        {
+            this.Id = "";
+            this.Content = "";
+            this.Depth = 0f;
+            this.Children = new List<Node>();
+            this.Parent = null;
+            this.IsReady = false;
+        }
+        
     }
 }

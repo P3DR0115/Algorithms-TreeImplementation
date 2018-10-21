@@ -11,7 +11,7 @@ namespace Algorithms_TreePart2
         string Id { get; set; }
         string Content { get; set; }
         float Depth { get; set; }
-        List<Node> children { get; set; }
+        List<Node> Children { get; set; }
         Node Parent { get; set; }
         bool IsReady { get; set; }
         
