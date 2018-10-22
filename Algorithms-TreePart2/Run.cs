@@ -8,7 +8,7 @@ namespace Algorithms_TreePart2
 {
     public class Run
     {
-        static string FileLocation = AppDomain.CurrentDomain.BaseDirectory + "people.txt";
+        static string FileLocation = AppDomain.CurrentDomain.BaseDirectory + "names.tab";
 
         //public static List<string> FileDataStrings = new List<string>();
         public static string[] FileDataStrings;
@@ -35,7 +35,8 @@ namespace Algorithms_TreePart2
                 choice = baseTree.menu();
             } while (choice != "7");
 
-            FileSaveStrings = PrepSave(baseTree, FileSaveStrings);
+            FileSaveStrings.Clear();
+            FileSaveStrings = PrepSave(baseTree.Root, FileSaveStrings);
             SaveFile(FileSaveStrings);
             //Console.ReadLine();
         }
@@ -52,19 +53,23 @@ namespace Algorithms_TreePart2
             }*/
         }// LoadText()
 
-        static List<string> PrepSave(Tree daTree, List<string> FileSaveStrings)
+        static List<string> PrepSave(List<Node> query, List<string> FileSaveStrings)
         {
-            FileSaveStrings.Clear();
 
-            foreach(Node n in daTree.Root)
+            foreach(Node n in query)
             {
+                if(n.Children.Count > 0)
+                {
+                    FileSaveStrings = PrepSave(n.Children, FileSaveStrings);
+                }
                 string tSaveString = "";
                 for (int d = 0; d < n.Depth; d++)
                 {
                     tSaveString += "\t";
                 }
                 tSaveString += n.Content;
-                FileSaveStrings.Add(tSaveString);
+                //FileSaveStrings.Add(tSaveString);
+                FileSaveStrings.Insert(0, tSaveString);
             }
 
             return FileSaveStrings;
@@ -115,7 +120,11 @@ namespace Algorithms_TreePart2
                         float tempD = spaceDepth % 8;
                         spaceDepth -= tempD;
 
-                        tNode.Depth = (tDepth + (spaceDepth / 8));
+                        if (i > 0)
+                            tNode.Depth = (tDepth + (spaceDepth / 8));
+                        else
+                            tNode.Depth = 0; //(tDepth + (spaceDepth / 8));
+
                         tNode.Id = tNode.Content + i + rnd.Next(0, 100);
                         baseTree.Root.Add(tNode);
                         break;
@@ -124,6 +133,23 @@ namespace Algorithms_TreePart2
 
             } // outer loop. For the string elements within the array
 
+            /*bool noTab = true;
+            foreach(Node w in baseTree.Root)
+            {
+                if(w.Depth == 0)
+                {
+                    noTab = false;
+                    break;
+                }
+            }
+
+            if (!noTab)
+            {
+                foreach (Node y in baseTree.Root)
+                {
+                    y.Depth -= 1;
+                }
+            }*/
             return baseTree;
         } // DetermineDepth();
 
@@ -140,10 +166,10 @@ namespace Algorithms_TreePart2
                 }
             }
 
+            List<Node> deepest = new List<Node>();
 
             for (int i = 0; i < baseTree.Root.Count(); i++)
             {
-                List<Node> deepest = new List<Node>();
                 if (baseTree.Root[i].Depth == deepestDepth)
                 {
                     deepest.Add(baseTree.Root[i]);
@@ -153,23 +179,54 @@ namespace Algorithms_TreePart2
                         if (baseTree.Root[w].Depth < baseTree.Root[i].Depth)
                         {
                             // The previous is the parent
-                            baseTree.Root[i].Parent = baseTree.Root[w];
-                            baseTree.Root[w].Children.Add(baseTree.Root[i]);
-                            baseTree.Root.RemoveAt(i);
+                            try
+                            {
+                                baseTree.Root[i].Parent = baseTree.Root[w];
+                                baseTree.Root[w].Children.Add(baseTree.Root[i]);
+                                baseTree.Root.RemoveAt(i);
+                            }
+                            catch(Exception e)
+                            {
+                                baseTree.Root[i].Parent = null;
+                                baseTree.Root[i].Depth = 0;
+                                //baseTree.Root[w].Children.Add(baseTree.Root[i]);
+                                baseTree.Root.RemoveAt(i);
+                            }
                             break;
                         }
                     }
                 }
             }
+            /*
+            if(baseTree.Root[0].Depth > 0)
+            {
 
-            if (deepestDepth > 0)
-                DetermineFamily(baseTree);
+            }
+            else */if (deepestDepth > 0)
+            {
+                try
+                {
+                    DetermineFamily(baseTree);
+                }
+                catch(Exception w)
+                {
 
+                }
+            }
+            
             return baseTree;
         } // DetermineFamily();
         
         static void DisplayElements(List<Node> Root, List<string> FileSaveStrings)
         {
+            foreach (Node r in Root)
+            {
+                if (r.Parent != null)
+                {
+                    r.Depth = r.Parent.Depth + 1;
+                }
+            }
+
             foreach (Node n in Root)
             {
                 string tSaveString = "";
