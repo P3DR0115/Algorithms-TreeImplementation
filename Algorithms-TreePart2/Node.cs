@@ -30,7 +30,7 @@ namespace Algorithms_TreePart2
             this.Children = new List<Node>();
             this.Parent = null;
             this.IsReady = false;
-        }
+        }// Node()
 
         public void displayAncestors()
         {
@@ -43,13 +43,15 @@ namespace Algorithms_TreePart2
             {
                 Console.WriteLine("Node's name is " + this.Content + " and it has no parent.");
             }
-        }
+
+            this.IsReady = false;
+        }// displayAncestors()
 
         public void displayDescendants()
         {
             if(Children.Count > 0)
             {
-                Console.Write("\nNode's name is " + this.Content + " and its chilren are ");
+                Console.Write("\nNode's name is " + this.Content + " and its chilren are: ");
 
                 foreach(Node n in Children)
                 {
@@ -64,7 +66,9 @@ namespace Algorithms_TreePart2
             {
                 Console.WriteLine("\nNode " + this.Content + " has no descendants");
             }
-        }
+
+            this.IsReady = false;
+        }// displayDescendants()
 
     }
 }

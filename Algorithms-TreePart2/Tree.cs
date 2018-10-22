@@ -68,6 +68,7 @@ namespace Algorithms_TreePart2
                         {
                             branchControl = false;
                             Get(IdSearch, branchControl);
+
                             Console.ReadLine();
                         }
                         break;
@@ -91,6 +92,7 @@ namespace Algorithms_TreePart2
                             Content = newName,
                             Parent = FindNodeId(Root, parentID)
                         };
+                        newNode.Depth = newNode.Parent.Depth + 1;
 
                         // Try to AddNode with the node and its parent. If no parent,
                         // it will add to root
@@ -237,7 +239,6 @@ namespace Algorithms_TreePart2
             {
                 if (searchResult.IsReady)
                 {
-                    searchResult.IsReady = false;
                     break;
                 }
                 else if (Id == n.Id)
@@ -256,7 +257,6 @@ namespace Algorithms_TreePart2
                     catch (Exception e)
                     {
                         // Node n has no children
-                        //searchResult = null;
                     }
                 }
             }
@@ -271,7 +271,6 @@ namespace Algorithms_TreePart2
             {
                 if (searchResult.IsReady)
                 {
-                    searchResult.IsReady = false;
                     break;
                 }                
                 else if (Content.ToUpper() == n.Content.ToUpper())
@@ -290,7 +289,6 @@ namespace Algorithms_TreePart2
                     catch (Exception e)
                     {
                         // Node n has no children and doesn't exist in context
-                        //searchResult = null;
                     }
 
                 }
