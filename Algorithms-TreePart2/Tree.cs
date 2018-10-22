@@ -103,7 +103,7 @@ namespace Algorithms_TreePart2
 
         public void Get(string Id, bool shouldGetBranch)
         {
-            Node searchResult = null;
+            Node searchResult = new Node();
             try
             {
                 searchResult = FindNodeId(Root, Id);
@@ -111,6 +111,7 @@ namespace Algorithms_TreePart2
             catch(Exception e)
             {
                 // search fail
+                searchResult = null;
             }
 
             if (searchResult != null && !shouldGetBranch)
@@ -187,8 +188,14 @@ namespace Algorithms_TreePart2
             Node searchResult = new Node();
             foreach (Node n in query)
             {
-                if (Id == n.Id)
+                if (searchResult.IsReady)
                 {
+                    searchResult.IsReady = false;
+                    break;
+                }
+                else if (Id == n.Id)
+                {
+                    n.IsReady = true;
                     searchResult = n;
                     break;
                 }
@@ -202,7 +209,7 @@ namespace Algorithms_TreePart2
                     catch (Exception e)
                     {
                         // Node n has no children
-                        searchResult = null;
+                        //searchResult = null;
                     }
                 }
             }
@@ -215,13 +222,18 @@ namespace Algorithms_TreePart2
             Node searchResult = new Node();
             foreach (Node n in query)
             {
-                if (Content.ToUpper() == n.Content.ToUpper())
+                if (searchResult.IsReady)
+                {
+                    searchResult.IsReady = false;
+                    break;
+                }                
+                else if (Content.ToUpper() == n.Content.ToUpper())
                 {
                     n.IsReady = true;
                     searchResult = n;
                     break;
                 }
-                else if (!n.IsReady)
+                else
                 {
                     // Check n's children
                     try
@@ -231,7 +243,7 @@ namespace Algorithms_TreePart2
                     catch (Exception e)
                     {
                         // Node n has no children and doesn't exist in context
-                        searchResult = null;
+                        //searchResult = null;
                     }
 
                 }

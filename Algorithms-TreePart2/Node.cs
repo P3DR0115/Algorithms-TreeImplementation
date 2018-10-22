@@ -62,7 +62,7 @@ namespace Algorithms_TreePart2
             }
             else
             {
-                Console.WriteLine("\nNode" + this.Content + " has no descendants");
+                Console.WriteLine("\nNode " + this.Content + " has no descendants");
             }
         }
 
