@@ -57,14 +57,17 @@ namespace Algorithms_TreePart2
                         string IdSearch = Console.ReadLine();
                         Console.WriteLine("Please enter [1] to retrieve the Node's branch \nOr enter [0] to not retrieve the Node's branch");
                         string getBranch = Console.ReadLine();
+                        bool branchControl;
                         if(getBranch == "1")
                         {
-                            Get(IdSearch, true);
+                            branchControl = true;
+                            Get(IdSearch, branchControl);
                             Console.ReadLine();
                         }
                         else
                         {
-                            Get(IdSearch, false);
+                            branchControl = false;
+                            Get(IdSearch, branchControl);
                             Console.ReadLine();
                         }
                         break;
@@ -73,7 +76,7 @@ namespace Algorithms_TreePart2
                     {
                         Console.WriteLine("Please enter the name of the Node: ");
                         string contentSearch = Console.ReadLine();
-                        Node searchResult = FindNodeContent(Root, contentSearch);
+                        Node searchResult = FindNodeContent(this.Root, contentSearch);
 
                         if(searchResult != null)
                         {
@@ -118,13 +121,12 @@ namespace Algorithms_TreePart2
             {
                 try
                 {
-                    // Show all the parents
+                    // Show all the descendants
                     searchResult.displayDescendants();
-                    //Console.WriteLine(searchResult.Content);
                 }
                 catch (Exception e)
                 {
-                    // Parent doesn't exist.
+                    // descendants don't exist.
                 }
 
             }
@@ -182,12 +184,13 @@ namespace Algorithms_TreePart2
 
         public Node FindNodeId(List<Node> query, string Id)
         {
-            Node searchResult = null;
+            Node searchResult = new Node();
             foreach (Node n in query)
             {
                 if (Id == n.Id)
                 {
                     searchResult = n;
+                    break;
                 }
                 else
                 {
@@ -195,13 +198,11 @@ namespace Algorithms_TreePart2
                     try
                     {
                         searchResult = FindNodeId(n.Children, Id);
-                        break;
                     }
                     catch (Exception e)
                     {
                         // Node n has no children
                         searchResult = null;
-                        break;
                     }
                 }
             }
@@ -211,24 +212,26 @@ namespace Algorithms_TreePart2
 
         public Node FindNodeContent(List<Node> query, string Content)
         {
-            Node searchResult = null; // Defaults to null to display that it couldn't be found
+            Node searchResult = new Node();
             foreach (Node n in query)
             {
                 if (Content.ToUpper() == n.Content.ToUpper())
                 {
+                    n.IsReady = true;
                     searchResult = n;
+                    break;
                 }
-                else
+                else if (!n.IsReady)
                 {
                     // Check n's children
                     try
                     {
                         searchResult = FindNodeContent(n.Children, Content);
-                        break;
                     }
                     catch (Exception e)
                     {
                         // Node n has no children and doesn't exist in context
+                        searchResult = null;
                     }
 
                 }
