@@ -35,6 +35,7 @@ namespace Algorithms_TreePart2
                 choice = baseTree.menu();
             } while (choice != "7");
 
+            FileSaveStrings = PrepSave(baseTree, FileSaveStrings);
             SaveFile(FileSaveStrings);
             //Console.ReadLine();
         }
@@ -50,6 +51,24 @@ namespace Algorithms_TreePart2
                 FileDataStrings.Add(s);
             }*/
         }// LoadText()
+
+        static List<string> PrepSave(Tree daTree, List<string> FileSaveStrings)
+        {
+            FileSaveStrings.Clear();
+
+            foreach(Node n in daTree.Root)
+            {
+                string tSaveString = "";
+                for (int d = 0; d < n.Depth; d++)
+                {
+                    tSaveString += "\t";
+                }
+                tSaveString += n.Content;
+                FileSaveStrings.Add(tSaveString);
+            }
+
+            return FileSaveStrings;
+        }
 
         static void SaveFile(List<string> FileSaveStrings)
         {

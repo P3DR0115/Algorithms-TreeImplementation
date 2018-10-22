@@ -122,6 +122,32 @@ namespace Algorithms_TreePart2
 
                         break;
                     }
+                case 5:
+                    {
+                        Console.WriteLine("Please enter the ID of the Node: ");
+                        string contentIDSearch = Console.ReadLine();
+                        Node searchResult = FindNodeId(this.Root, contentIDSearch);
+
+                        if (searchResult != null)
+                        {
+                            Console.Beep();
+                            Console.Beep();
+                            Console.Beep(1000, 400);
+                            Console.WriteLine("Item Found: " + searchResult.Content + ", ID: " + searchResult.Id);
+                            searchResult.displayAncestors();
+                            searchResult.displayDescendants();
+                            Console.WriteLine("\nPress [Enter] to continue...");
+                        }
+                        else
+                        {
+                            Console.Beep();
+                            Console.Beep();
+                            Console.Beep(400, 400);
+                            Console.WriteLine("Item Not Found.");
+                        }
+                        Console.ReadLine();
+                        break;
+                    }
                 case 6:
                     {
                         Console.WriteLine("Please enter the name of the Node: ");
@@ -295,6 +321,6 @@ namespace Algorithms_TreePart2
             }
 
             return searchResult;
-        }
+        } // FindNodeContent()
     }
 }
