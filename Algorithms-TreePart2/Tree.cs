@@ -92,7 +92,8 @@ namespace Algorithms_TreePart2
                             Content = newName,
                             Parent = FindNodeId(Root, parentID)
                         };
-                        newNode.Depth = newNode.Parent.Depth + 1;
+                        if(newNode.Parent.Content != "")
+                            newNode.Depth = newNode.Parent.Depth + 1;
 
                         // Try to AddNode with the node and its parent. If no parent,
                         // it will add to root
@@ -102,7 +103,7 @@ namespace Algorithms_TreePart2
                         }
                         catch (Exception e)
                         {
-                            AddNode(newNode, null);
+                            AddNode(newNode, "None");
                         }
 
                         // Also try to add the new node to its parent's list of children
@@ -154,10 +155,10 @@ namespace Algorithms_TreePart2
                         Console.WriteLine("Please enter the ID of the Node to delete: ");
                         string IDtoDelete = Console.ReadLine();
 
-                        bool nodeDeleted = DeleteNode(this.Root, IDtoDelete);
+                        int before = this.Root.Count();
+                        this.Root = DeleteNode(this.Root, IDtoDelete);
 
-
-                        if (nodeDeleted)
+                        if (this.Root.Count != before)
                         {
                             Console.WriteLine("Node " + IDtoDelete + " successfuly deleted.");
                         }
@@ -202,7 +203,7 @@ namespace Algorithms_TreePart2
                         string contentSearch = Console.ReadLine();
                         Node searchResult = FindNodeContent(this.Root, contentSearch);
 
-                        if(searchResult != null)
+                        if(searchResult.Content != "")
                         {
                             Console.Beep();
                             Console.Beep();
@@ -261,16 +262,17 @@ namespace Algorithms_TreePart2
         {
             // Search to see if parent exists 
             Node searchResult = FindNodeId(Root, ParentId);
-            if (searchResult != null)
+            if (ParentId == "None" || ParentId == "")
+            {
+                // Child will have no parent
+                Child.Parent = null;
+                this.Root.Add(Child);
+            }
+            else if (searchResult.Content != "")
             {
                 foreach (Node n in Root)
                 {
-                    if (ParentId == "None")
-                    {
-                        // Child will have no parent
-                        this.Root.Add(Child);
-                    }
-                    else if (ParentId == n.Id)
+                    if (ParentId == n.Id)
                     {
                         n.Children.Add(Child);
                     }
@@ -293,6 +295,7 @@ namespace Algorithms_TreePart2
                     } // else
                 } // foreach
             } // if node exists
+            
 
         } // AddNode()
 
@@ -331,31 +334,33 @@ namespace Algorithms_TreePart2
 
         } // MoveNode()
 
-        public bool DeleteNode(List<Node> query, string Id)
+        public List<Node> DeleteNode(List<Node> query, string Id)
         {
-            bool nodeDeleted = false;
+            List<Node> deleteList = query;
 
-            for (int i = 0; i < query.Count && nodeDeleted == false; i++)
+            for (int i = 0; i < deleteList.Count; i++)// && nodeDeleted == false; i++)
             {
-                if (nodeDeleted)
+                /*if (nodeDeleted)
                 {
                     break;
                 }
-                else if (Id == query[i].Id)
+                else*/ if (Id == query[i].Id)
                 {   // Set all values of the Node to null and remove it from the list
-                    query[i].Id = null;
-                    query[i].Content = null;
-                    query[i].Depth = 0f;
-                    query[i].Children = null;
-                    query[i].Parent = null;
+                    deleteList[i].Id = null;
+                    deleteList[i].Content = null;
+                    deleteList[i].Depth = 0f;
+                    deleteList[i].Children.Clear();
+                    deleteList[i].Parent = null;
 
-                    query.RemoveAt(i);
+                    deleteList.RemoveAt(i);
 
-                    nodeDeleted = true;
+                    
+
+                    //nodeDeleted = true;
                 }
                 else // Check node's children
                 {
-                    try { nodeDeleted = DeleteNode(query[i].Children, Id); }
+                    try { deleteList = DeleteNode(deleteList[i].Children, Id); }
                     catch
                     { // Node has no children
                     }
@@ -363,7 +368,7 @@ namespace Algorithms_TreePart2
                 }
             }
 
-            return nodeDeleted;
+            return deleteList;
         } // DeleteNode()
 
         public Node FindNodeId(List<Node> query, string Id)
