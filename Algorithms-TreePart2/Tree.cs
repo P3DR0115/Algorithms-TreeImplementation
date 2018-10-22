@@ -72,6 +72,54 @@ namespace Algorithms_TreePart2
                         }
                         break;
                     }
+                case 2:
+                    {
+                        // Get new node's name and parent from input
+                        Console.WriteLine("Please enter the name of your new Node:");
+                        string newName = Console.ReadLine();
+                        Console.WriteLine("Please enter the desired parent's ID:\n(type 'None' if you want the Node to be in root)");
+                        string parentID = Console.ReadLine();
+
+                        // Create a new ID for the new node
+                        Random rnd = new Random();
+                        string newID = newName + rnd.Next(0, 100);
+
+                        // Add a new node and apply to it the new ID, name, and parent
+                        Node newNode = new Node
+                        {
+                            Id = newID,
+                            Content = newName,
+                            Parent = FindNodeId(Root, parentID)
+                        };
+
+                        // Try to AddNode with the node and its parent. If no parent,
+                        // it will add to root
+                        try
+                        {
+                            AddNode(newNode, newNode.Parent.Id);
+                        }
+                        catch (Exception e)
+                        {
+                            AddNode(newNode, null);
+                        }
+
+                        // Also try to add the new node to its parent's list of children
+                        try { newNode.Parent.Children.Add(newNode); }
+                        catch { }
+
+                        Console.Beep();
+                        Console.Beep();
+                        Console.Beep(900, 400);
+
+                        // Reflect the new node's addition in console
+                        try { Console.WriteLine("New node '" + newNode.Id + "' added to parent " + newNode.Parent.Id); }
+                        catch (Exception e) { Console.WriteLine("New node '" + newNode.Id + "' added to root."); }
+
+
+                        Console.ReadKey();
+
+                        break;
+                    }
                 case 6:
                     {
                         Console.WriteLine("Please enter the name of the Node: ");
@@ -135,10 +183,9 @@ namespace Algorithms_TreePart2
 
         public void AddNode(Node Child, string ParentId)
         {
-
             // Search to see if parent exists 
             Node searchResult = FindNodeId(Root, ParentId);
-            if(searchResult != null)
+            if (searchResult != null)
             {
                 foreach (Node n in Root)
                 {
@@ -155,7 +202,7 @@ namespace Algorithms_TreePart2
                     {
                         try
                         {
-                            foreach(Node o in n.Children)
+                            foreach (Node o in n.Children)
                             {
                                 if (ParentId == n.Id)
                                 {
@@ -170,7 +217,7 @@ namespace Algorithms_TreePart2
                     } // else
                 } // foreach
             } // if node exists
-            
+
         } // AddNode()
 
         public void MoveNode(string Id, string ParentId)
