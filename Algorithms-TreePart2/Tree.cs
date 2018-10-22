@@ -122,6 +122,54 @@ namespace Algorithms_TreePart2
 
                         break;
                     }
+                case 3: // Move Node
+                    {
+                        Console.WriteLine("Please enter the ID of the Node to move:");
+                        string moveNodeID = Console.ReadLine();
+                        string newNodeId = "";
+                        string parentOfMoveID = "";
+
+                        Node movingNode = FindNodeId(Root, moveNodeID);
+
+                        if (movingNode.Id != null)
+                        {
+                            Console.WriteLine("Please enter the parent's ID to move Node " + movingNode.Id + " to:");
+                            parentOfMoveID = Console.ReadLine();
+
+                            newNodeId = MoveNode(movingNode.Id, parentOfMoveID);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error: Invalid Node ID. Cannot move.");
+                        }
+
+                        Console.WriteLine("Node " + newNodeId + " moved under Node " + parentOfMoveID + ".");
+
+                        Console.ReadKey();
+
+                        break;
+                    }
+                case 4: // Delete Node
+                    {
+                        Console.WriteLine("Please enter the ID of the Node to delete: ");
+                        string IDtoDelete = Console.ReadLine();
+
+                        bool nodeDeleted = DeleteNode(this.Root, IDtoDelete);
+
+
+                        if (nodeDeleted)
+                        {
+                            Console.WriteLine("Node " + IDtoDelete + " successfuly deleted.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Node " + IDtoDelete + " was not found.");
+                        }
+
+                        Console.ReadKey();
+
+                        break;
+                    }
                 case 5:
                     {
                         Console.WriteLine("Please enter the ID of the Node: ");
@@ -248,14 +296,74 @@ namespace Algorithms_TreePart2
 
         } // AddNode()
 
-        public void MoveNode(string Id, string ParentId)
+        public string MoveNode(string Id, string ParentId)
         {
+            Node newChild = new Node();
+
+            Random rnd = new Random();
+
+            if (ParentId != null)
+            {
+                Node newParent = FindNodeId(this.Root, ParentId);
+
+                newChild = FindNodeId(this.Root, Id);
+
+                newChild.Id = newChild.Content + rnd.Next(0, 100);
+
+                // Add new node with the moving node's values to the new place
+                AddNode(newChild, ParentId);
+            }
+            else
+            {
+                newChild = FindNodeId(this.Root, Id);
+
+                newChild.Id = newChild.Content + rnd.Next(0, 100);
+
+                // Add new node with the moving node's values to root
+                AddNode(newChild, "None");
+            }
+
+            // Delete the original node
+            DeleteNode(this.Root, Id);
+
+            // Return the new node
+            return newChild.Id;
 
         } // MoveNode()
 
-        public void DeleteNode(string Id)
+        public bool DeleteNode(List<Node> query, string Id)
         {
+            bool nodeDeleted = false;
 
+            for (int i = 0; i < query.Count && nodeDeleted == false; i++)
+            {
+                if (nodeDeleted)
+                {
+                    break;
+                }
+                else if (Id == query[i].Id)
+                {   // Set all values of the Node to null and remove it from the list
+                    query[i].Id = null;
+                    query[i].Content = null;
+                    query[i].Depth = 0f;
+                    query[i].Children = null;
+                    query[i].Parent = null;
+
+                    query.RemoveAt(i);
+
+                    nodeDeleted = true;
+                }
+                else // Check node's children
+                {
+                    try { nodeDeleted = DeleteNode(query[i].Children, Id); }
+                    catch
+                    { // Node has no children
+                    }
+
+                }
+            }
+
+            return nodeDeleted;
         } // DeleteNode()
 
         public Node FindNodeId(List<Node> query, string Id)
